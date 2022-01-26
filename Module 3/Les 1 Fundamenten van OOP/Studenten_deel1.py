@@ -39,14 +39,9 @@ s2 = Student("Jeroen", 26, 95)
 s3 = Student("Sarah", 31, 88)
 s4 = Student("Ilse", 28, 99)
 
-s5 = Student("Terry", 29, 81)
-s6 = Student("Joel", 29, 51)
-s7 = Student("Maria", 28, 12)
-s8 = Student("Emmitt", 28, 88)
-
 klas1 = [s1, s2, s3, s4]
 
-
 veranderpunten(klas1)
+
 for x in klas1:
     x.toon_student_info()
