@@ -24,7 +24,15 @@ class Student:
 
 
 def opties():
+    print("-----------------------------")
     print("Wat wil je doen?")
+    print("1 - Lijst tonen")
+    print("2 - Punten veranderen")
+    print("3 - Student toevoegen")
+    print("4 - Toon klas")
+    print("5 - Verwijder student")
+    print("6 - Verander studentnaam")
+    print("einde - programma sluiten")
 
 
 def veranderpunten(lijst):
@@ -38,20 +46,37 @@ def veranderpunten(lijst):
                 print("Nieuwe punten niet tussen 0 en 100")
 
 
-def veranderpuntenklas():
-    klas_Keuze = input("Geef klas keuze in? 1 - klas_a of 2 - klas_b")
+def nieuwe_student(lijst):
+    naam = input("Geef naam nieuw persoon in ")
+    leeftijd = int(input("Geef leeftijd in "))
+    punten = int(input("Geef punten in "))
+    lijst.append(Student(naam, leeftijd, punten))
+
+
+def toon_klas():
+    klas_Keuze = input("Geef klas keuze in? 1 - Klas A of 2 - Klas B")
     if klas_Keuze == "1":
         for x in klas_a:
-            print(x.naam)
-        veranderpunten(klas_a)
-        for x in klas_a:
             x.toon_student_info()
-    elif klas_Keuze == "2":
-        for x in klas_b:
-            print(x.naam)
-        veranderpunten(klas_b)
+    if klas_Keuze == "2":
         for x in klas_b:
             x.toon_student_info()
+
+
+def verwijder_student(lijst):
+    zoek_naam = input("Welke persoon wil je verwijderen? ")
+    for x, o in enumerate(all_students):
+        if o.naam == zoek_naam:
+            del all_students[x]
+            break
+
+
+def verandernaam(lijst):
+    zoek_naam = input("Geef naam wilt veranderen ")
+    for x in lijst:
+        if zoek_naam == x.naam:
+            nieuwe_naam = input("Geef nieuwe naam in ")
+            x.naam = nieuwe_naam
 
 
 s1 = Student("Jordy", 29, 100)
@@ -67,3 +92,22 @@ all_students = [s1, s2, s3, s4, s5, s6, s7, s8]
 klas_a = [s1, s2, s3, s4]
 klas_b = [s5, s6, s7, s8]
 
+while True:
+    opties()
+    keuze = input("Geef keuze in. ")
+    print("-----------------------------")
+    if keuze == "1":
+        for x in all_students:
+            x.toon_student_info()
+    elif keuze == "2":
+        veranderpunten(all_students)
+    elif keuze == "3":
+        nieuwe_student(all_students)
+    elif keuze == "4":
+        toon_klas()
+    elif keuze == "5":
+        verwijder_student(all_students)
+    elif keuze == "6":
+        verandernaam(all_students)
+    elif keuze == "einde":
+        break
