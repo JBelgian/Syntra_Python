@@ -7,7 +7,7 @@ Maak een methode maak_geluid() deze maak het geluid van het dier
 
 def toon_alles(lijst):
     for key, value in lijst.items():
-        print(key, " : ", key)
+        print("Naam baasje", " : ", key)
         for x,y in value.items():
             print(x + " : ", value[x])
         print("\n")
