@@ -1,0 +1,3 @@
+Lijst auto's wordt getoond
+Auto met ID 1-VUZ-515 werd toegevoegd aan de lijst met auto's.
+Auto met ID 1-VUZ-515 werd verwijderd uit de lijst.
