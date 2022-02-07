@@ -55,6 +55,7 @@ def toon_menu():
     print("5: Verwijder gids")
     print("6: ken nieuwe bestemming toe aan gids")
     print("7: Verwijder de bestemming van de gids")
+    print("8: zoek gidsen met bepaalde bestemming")
 
 
 def toon_gidsen(lijst):
@@ -116,6 +117,14 @@ def verwijder_bestemming_van_een_gids(lijst):
                     x.bestemmingen.pop(y)
 
 
+def zoek_gids_voor_bestemming(lijst):
+    stad = input("Geef de naam van de stad in ")
+    for x in lijst:
+        for y in x.bestemmingen:
+            if stad == y.stad:
+                print(x.naam)
+
+
 b1 = Bestemming("I1", "Italie", "Rome")
 b2 = Bestemming("I2", "Italie", "Milaan")
 b3 = Bestemming("S1", "Spanje", "Madrid")
@@ -148,5 +157,7 @@ while not keuze == "stop":
         ken_nieuwe_bestemming_toe_aan_gids(gidsen)
     elif keuze == "7":
         verwijder_bestemming_van_een_gids(gidsen)
+    elif keuze == "8":
+        zoek_gids_voor_bestemming(gidsen)
 
     keuze = input("geef je keuze in:")
