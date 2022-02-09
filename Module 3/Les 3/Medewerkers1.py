@@ -10,8 +10,7 @@ class Werknemer:
 
     def toon_info_werknemer(self):
         return "ID: {} \n voornaam: {} \n achternaam: {} \n startjaar: {} ".format(
-            self.id, self.voornaam, self.achternaam, self.startjaar
-        )
+            self.id, self.voornaam, self.achternaam, self.startjaar)
 
 
 class Bediende(Werknemer):
