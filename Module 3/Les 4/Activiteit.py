@@ -9,4 +9,6 @@ class Activiteit:
         return "{} - Activiteitnaam: {} - Kostprijs: {}".format(self.id, self.naam, self.kostprijs)
 
     def voeg_begeleider_toe(self):
+        aid = input("Voor welke activiteit id wil je een begeleider toevoegen? ")
+
 
