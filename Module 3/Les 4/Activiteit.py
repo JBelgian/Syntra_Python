@@ -6,7 +6,13 @@ class Activiteit:
         self.begeleider = "geen begeleider"
 
     def toon_info(self):
-        return "ID:{} - Activiteit: {} - Kostprijs: €{}".format(self.id, self.naam, self.kostprijs)
+        return "ID:{} {} en kostprijs is € {}".format(self.id, self.naam, self.kostprijs)
+
+    def toon_naam(self):
+        return self.naam
+
+    def toon_kostprijs(self):
+        return self.kostprijs
 
 
 class Persoon:
@@ -20,6 +26,12 @@ class Persoon:
 
     def toon_leeftijd(self):
         return self.leeftijd
+
+    def toon_id(self):
+        return self.id
+
+    def toon_naam(self):
+        return self.naam
 
 
 class Begeleider(Persoon):
@@ -40,8 +52,11 @@ class Deelnemer(Persoon):
     def toon_info(self):
         return super().toon_info() + " organisatie " + self.organisatie
 
-    def toon_leeftijd(self):
-        return self.leeftijd
+    def toon_id(self):
+        return self.id
+
+    def toon_organisatie(self):
+        return self.organisatie
 
 
 class Inschrijving:
@@ -71,6 +86,7 @@ def toon_menu():
     print("6: print activiteit van deelnemer")
     print("7: Sorteer deelnemers op leeftijd")
     print("8: Sorteer op activiteit")
+    print("9: nieuwe inschrijving")
 
 
 def toon_alle_inschrijvingen(lijst):
@@ -134,7 +150,24 @@ def sorteer_activiteit_kostprijs(lijst):
         print(x.toon_info())
 
 
-# data
+def nieuwe_inschrijving(lijstI, lijstP, lijstA):
+    id = input("Geef het ID van de inschrijving")
+    id_d = input("Geef het ID van de deelnemer")
+    for x in lijstP:
+        if id_d == x.toon_id():
+            deelnemer_naam = x.toon_naam()
+            deelnemer_leeftijd = x.toon_leeftijd()
+            deelnemer_org = x.toon_organisatie()
+            d = Deelnemer(id_d, deelnemer_naam, deelnemer_leeftijd, deelnemer_org)
+    id_a = input("Geef het ID van de activiteit")
+    for y in lijstA:
+        if id_a == y.id:
+            activiteit_naam = y.toon_naam()
+            activiteit_prijs = y.toon_kostprijs()
+            a = Activiteit(id_a, activiteit_naam, activiteit_prijs)
+    a = Activiteit(id, d, a)
+    lijstI.append(a)
+
 
 a1 = Activiteit("a1", "Bowlen", 10)
 a2 = Activiteit("a2", "Paintballen", 25)
@@ -170,7 +203,7 @@ inschrijving = [i1, i2, i3, i4, i5, i6, i7, i8, i9]
 
 # hoofdprogramma
 toon_menu()
-keuze = input("geef je keuze in ")
+keuze = input("geef je keuze in")
 while not keuze == "stop":
     if keuze == "1":
         toon_alle_inschrijvingen(inschrijving)
@@ -188,6 +221,8 @@ while not keuze == "stop":
         sorteer_deelnemer_leeftijd(personen)
     elif keuze == "8":
         sorteer_activiteit_kostprijs(activiteiten)
+    elif keuze == "9":
+        nieuwe_inschrijving(inschrijving, personen, activiteiten)
 
     toon_menu()
-    keuze = input("geef je keuze in ")
+    keuze = input("geef je keuze in")

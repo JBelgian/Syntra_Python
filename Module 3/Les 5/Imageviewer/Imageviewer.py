@@ -19,7 +19,7 @@ root.geometry("700x700")
 # give a proper path for the images
 image_no_1 = ImageTk.PhotoImage(Image.open("Onuachu.jpg"))
 image_no_2 = ImageTk.PhotoImage(Image.open("maxresdefault.jpg"))
-image_no_3 = ImageTk.PhotoImage(Image.open("download.jfif"))
+image_no_3 = ImageTk.PhotoImage(Image.open("download.jpg"))
 
 
 def forward(img_no):
