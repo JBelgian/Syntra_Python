@@ -1,7 +1,7 @@
 # importing the tkinter module and PIL that
 # is pillow module
 from tkinter import *
-from PIL import ImageTk, Image
+from PIL import ImageTk, I
 
 # Calling the Tk (The initial constructor of tkinter)
 root = Tk()

@@ -102,7 +102,7 @@ a7 = Actie("Gedaan", 0, 5000)
 aanvallen_speler = [a1, a3, a4, a6, a7]
 aanvallen_vijand = [a2, a3, a5, a6]
 
-s = Speler("Red Knight", 200, aanvallen_speler)
+s = Speler("Red Knight", 1000, aanvallen_speler)
 v = Vijand("Black Dragon", 1200, aanvallen_vijand)
 
 g = Gevecht("G1", s, v)
