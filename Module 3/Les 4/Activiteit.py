@@ -150,7 +150,7 @@ def sorteer_activiteit_kostprijs(lijst):
         print(x.toon_info())
 
 
-def nieuwe_inschrijving(lijstI, lijstP, lijstA):
+def nieuwe_inschrijving(lijstL, lijstP, lijstA):
     id = input("Geef het ID van de inschrijving")
     id_d = input("Geef het ID van de deelnemer")
     for x in lijstP:
@@ -166,7 +166,7 @@ def nieuwe_inschrijving(lijstI, lijstP, lijstA):
             activiteit_prijs = y.toon_kostprijs()
             a = Activiteit(id_a, activiteit_naam, activiteit_prijs)
     a = Activiteit(id, d, a)
-    lijstI.append(a)
+    lijstL.append(a)
 
 
 a1 = Activiteit("a1", "Bowlen", 10)

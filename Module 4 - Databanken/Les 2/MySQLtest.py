@@ -1,4 +1,14 @@
 import mysql.connector
+from tkinter import *
+from tkinter import messagebox
+
+# configuratie ticketbestelbox
+admscreen = Tk()
+admscreen.title("FC Syntra Genk")
+admscreen.geometry("1000x600")
+
+my_canvas = Canvas(root, width=900, height=600)
+my_canvas.pack()
 
 db = mysql.connector.connect(
     host="localhost",
