@@ -19,10 +19,10 @@ db = mysql.connector.connect(
 mycursor = db.cursor()
 
 
-def voeg_admin_toe():
+def voeg_admin_toe():  # function to add new admin
     lijst_new_admin = [admin_vn_entry.get(), admin_an_entry.get(), admin_email_entry.get(), admin_pw_entry.get()]
     teller = 0
-    for x in lijst_new_admin:
+    for x in lijst_new_admin:  # check if all fields are filled in
         if len(x) > 0:
             teller = teller + 1
     if teller < 4:
@@ -35,10 +35,10 @@ def voeg_admin_toe():
     return
 
 
-def delete_reservation():
+def delete_reservation():  # function to delete one reservation, determined by filled in infomation
     lijst_delete1 = [vak_entry.get(), rij_entry.get(), stoel_entry.get()]
     d1_teller = 0
-    for x in lijst_delete1:
+    for x in lijst_delete1:  # check if all necessary fields are filled in
         if len(x) > 0:
             d1_teller = d1_teller + 1
     if d1_teller < 3:
@@ -51,21 +51,21 @@ def delete_reservation():
         val = (v, r, s)
         mycursor.execute(sql, val)
         db.commit()
-        clear_all()
         display_data()
     return
 
 
-def delete_all_reservations():
+def delete_all_reservations():  # function to delete all reservations
     sql = "UPDATE stadion SET reserved = 'Nee'"
     mycursor.execute(sql)
     db.commit()
-    clear_all()
     display_data()
     return
 
 
-def display_data():
+def display_data():  # function to display all reserved seats in the GUI table
+    for item in stadion_records.get_children():
+        stadion_records.delete(item)
     mycursor.execute("SELECT tribune, rij, stoel, reserved FROM stadion WHERE reserved = 'Ja'")
     result = mycursor.fetchall()
     for row in result:
@@ -73,11 +73,7 @@ def display_data():
     return
 
 
-def clear_all():
-    for item in stadion_records.get_children():
-        stadion_records.delete(item)
-
-
+# TKINTER SETUP
 admin_page = Tk()
 admin_page.title("FC Syntra Genk")
 admin_page.state("zoomed")
@@ -93,8 +89,8 @@ L_Title.pack(pady=20)
 my_logo = Image.open("syntrapxl_academie_logo_digitaal_rgb_square.png")
 resized = my_logo.resize((200, 200), Image.ANTIALIAS)
 new_logo = ImageTk.PhotoImage(resized)
-new_logo_label = Label(admin_page, image=new_logo, bg="DodgerBlue3")
-new_logo_label.place(x=1210, y=40)
+new_logo_lbl = Label(admin_page, image=new_logo, bg="DodgerBlue3")
+new_logo_lbl.place(x=1210, y=40)
 
 # CANVAS
 # CANVAS: kader voor lijnen
@@ -109,36 +105,35 @@ my_canvas.create_line(1224, 0, 400, 400, fill="red", width=8)
 my_canvas.create_line(1224, 0, 400, 600, fill="black", width=8)
 
 # LABELS
+title1_lbl = Label(text="ENKELE RESERVATIE", bg="DodgerBlue2", fg="White", font=('Helvetica', 20, "bold"))
+title1_lbl.place(x=270, y=210)
 
-title1 = Label(text="ENKELE RESERVATIE", bg="DodgerBlue2", fg="White", font=('Helvetica', 20, "bold"))
-title1.place(x=270, y=210)
+vak_lbl = Label(text="Vak", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
+vak_lbl.place(x=270, y=260)
 
-vak = Label(text="Vak", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
-vak.place(x=270, y=260)
+rij_lbl = Label(text="Rij", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
+rij_lbl.place(x=270, y=310)
 
-rij = Label(text="Rij", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
-rij.place(x=270, y=310)
+stoel_lbl = Label(text="Stoel nummer", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
+stoel_lbl.place(x=268, y=360)
 
-stoel = Label(text="Stoel nummer", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
-stoel.place(x=268, y=360)
+title2_lbl = Label(text="ALLE RESERVATIES", bg="DodgerBlue2", fg="White", font=('Helvetica', 20, "bold"))
+title2_lbl.place(x=270, y=510)
 
-title2 = Label(text="ALLE RESERVATIES", bg="DodgerBlue2", fg="White", font=('Helvetica', 20, "bold"))
-title2.place(x=270, y=510)
+title3_lbl = Label(text="NIEUWE ADMIN", bg="DodgerBlue2", fg="White", font=('Helvetica', 20, "bold"))
+title3_lbl.place(x=900, y=210)
 
-title3 = Label(text="NIEUWE ADMIN", bg="DodgerBlue2", fg="White", font=('Helvetica', 20, "bold"))
-title3.place(x=900, y=210)
+admin_vn_lbl = Label(text="Voornaam", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
+admin_vn_lbl.place(x=900, y=260)
 
-admin_vn = Label(text="Voornaam", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
-admin_vn.place(x=900, y=260)
+admin_an_lbl = Label(text="Achternaam", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
+admin_an_lbl.place(x=900, y=310)
 
-admin_an = Label(text="Achternaam", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
-admin_an.place(x=900, y=310)
+admin_email_lbl = Label(text="Email", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
+admin_email_lbl.place(x=900, y=360)
 
-admin_email = Label(text="Email", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
-admin_email.place(x=900, y=360)
-
-admin_pw = Label(text="Paswoord", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
-admin_pw.place(x=900, y=410)
+admin_pw_lbl = Label(text="Paswoord", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
+admin_pw_lbl.place(x=900, y=410)
 
 # TEKSTVAKKEN
 vak = StringVar
@@ -181,7 +176,7 @@ delete_all_button.place(x=270, y=560, height="30")
 add_admin_button = Button(text="Voeg admin toe", width="30", command=voeg_admin_toe, bg="White")
 add_admin_button.place(x=950, y=460, height="30")
 
-# data table
+# DATA TABLE SETUP
 scroll_y = Scrollbar(admin_page, orient=VERTICAL)
 
 stadion_records = ttk.Treeview(admin_page, height=8, columns=("tribune", "rij", "stoel", "reserved"),
@@ -203,4 +198,5 @@ stadion_records.column("reserved", width=80)
 stadion_records.place(x=550, y=260)
 display_data()
 
+# PROGRAM START
 admin_page.mainloop()
