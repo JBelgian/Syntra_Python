@@ -1,3 +1,8 @@
+############################ ADMIN PAGE ##############################
+# This page is the admin page from the website FC SYNTRA.            #
+# Admins log in to this portal to change reservation or create a new #
+# admin. Page is accessed by logging in as administrator on login.   #
+######################################################################
 import mysql.connector
 from tkinter import *
 from tkinter import messagebox
