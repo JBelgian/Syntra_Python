@@ -112,7 +112,7 @@ rij_lbl = Label(text="Rij", bg="DodgerBlue2", fg="White", font=('Helvetica', 12)
 rij_lbl.place(x=270, y=310)
 
 stoel_lbl = Label(text="Stoel nummer", bg="DodgerBlue2", fg="White", font=('Helvetica', 12))
-stoel_lbl.place(x=268, y=360)
+stoel_lbl.place(x=270, y=360)
 
 title2_lbl = Label(text="ALLE RESERVATIES", bg="DodgerBlue2", fg="White", font=('Helvetica', 20, "bold"))
 title2_lbl.place(x=270, y=510)
