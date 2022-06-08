@@ -10,6 +10,7 @@ from tkinter import *
 from tkinter.ttk import Combobox
 from tkinter import messagebox
 from PIL import ImageTk, Image
+from cryptography.fernet import Fernet
 
 # CONNECT TO DATABASE FCSYNTRA
 fcsyntra_db = mysql.connector.connect(
@@ -23,44 +24,93 @@ mycursor = fcsyntra_db.cursor()
 
 # VERIFY LOGIN in DB
 def login_verify():
-    username = username_entry.get()
-    password = password_entry.get()
-    profile = profile_entry.get()
-    if username == "" or password == "" or profile == "":
+    username = username_entry.get()  # Neem ingegeven username
+    password = password_entry.get()  # Neem ingegeven paswoord
+    profile = profile_entry.get()  # Neem aangevinkte profiel
+    decrypt_pwd()  # paswoord wordt op basis van username gedecrypteerd vanuit database om check te maken met
+    # ingebrachte paswoord
+    if username == "" or password == "" or profile == "":  # er moet altijd iets ingebracht worden
         messagebox.showinfo("", "Blanks not allowed")
     else:
-        if profile == 'Administrator':
+        if profile == 'Administrator':  # Indien Admin, gaat in database kijken naar Tabel Admin
             sql = f"SELECT email from admin WHERE email = '{username}' AND paswoord = '{password}';"
             mycursor.execute(sql)
             if mycursor.fetchall():
                 messagebox.showinfo("", "Login Successful")
                 login_page.destroy()
-                import admin_page
+                import admin_page  # Indien verificatie OK is, gaat Admin Pagina open
+            else:
+                messagebox.showinfo("", "Incorrect Username and/or Password and/or profile")
+        elif profile == 'Supporter':  # Indien supporter, gaat in database kijken naar Tabel leden
+            sql = f"SELECT email from leden WHERE email = '{username}';"
+            mycursor.execute(sql)
+            if mycursor.fetchall():
+                if password == str_decrypted_pwd:  # hier wordt gekeken naar match ingebrachte paswoord en decrypted
+                    # paswoord
+                    messagebox.showinfo("", "Login Successful")
+                    get_id_supp()  # Als ok is, dan gaan we lidnr nemen en wegschrijven in txt file
+                    login_page.destroy()
+                    import ticket_page  # men komt dan op pagina bestellen ticket
+                else:
+                    messagebox.showinfo("", "Incorrect Username and/or Password and/or profile")
             else:
                 messagebox.showinfo("", "Incorrect Username and/or Password and/or profile")
         else:
-            sql = f"SELECT email from leden WHERE email = '{username}' AND paswoord = '{password}';"
-            mycursor.execute(sql)
-            if mycursor.fetchall():
-                messagebox.showinfo("", "Login Successful")
-                login_page.destroy()
-            else:
-                messagebox.showinfo("", "Incorrect Username and/or Password and/or profile")
+            messagebox.showinfo("", "Incorrect Username and/or Password and/or profile")
 
 
+# functie om paswoord te decrypten
+def decrypt_pwd():
+    global str_decrypted_pwd
+    username = username_entry.get()
+    sql = f"SELECT paswoord, pwd_key from leden WHERE email = '{username}';"
+    mycursor.execute(sql)
+    for x in mycursor:
+        encrypted_pwd = x[0]
+        read_key = x[1]
+        key = read_key
+        f = Fernet(key)
+        decrypted_pwd = f.decrypt(encrypted_pwd)
+        str_decrypted_pwd = decrypted_pwd.decode('UTF-8')
+        print('readed key is ', read_key)
+        print('read encrypt pwd = ', encrypted_pwd)
+        print("decrypted pwd is ", decrypted_pwd)
+        print(str_decrypted_pwd)
+
+
+# functie om ID lidnr te halen van supporter die aanlogt en die wordt weggeschreven in txt file zodat men in
+# pagina ticket bestelling weet wie een bestelling plaatst
+def get_id_supp():
+    global lidNummer
+    username = username_entry.get()
+    sql = f"SELECT lidNummer from leden WHERE email = '{username}';"
+    mycursor.execute(sql)
+    for x in mycursor:
+        lidNummer = x[0]
+        print(lidNummer)
+        Lidnr_log = open("Lidnr_log.txt", "w")
+        Lidnr_log.writelines(str(lidNummer))
+        Lidnr_log.close()
+
+
+# functie die pagina opent 'Paswoord vergeten'
 def open_reset_pwd_page():
     login_page.destroy()
     import reset_password_page
 
 
+# functie die pagina opent 'creatie account'
 def open_creation_page():
     login_page.destroy()
     import account_creation_page
 
 
+# ######################################################################## PAGE CREATIE
+# #############################################################################################
+
 # creation page Main_Login_Page
 login_page = Tk()
-login_page.title("FC Syntra Genk")
+login_page.title("FC Syntra")
 login_page.state("zoomed")
 login_page.config(bg='DodgerBlue3')
 login_page.grid_rowconfigure(0, weight=1)
@@ -114,14 +164,14 @@ username = StringVar
 password = StringVar
 
 # LOGIN
-username_entry = Entry(width=50, highlightthickness=2)
+username_entry = Entry(width=35, highlightthickness=2, font=20)
 username_entry.place(x=400, y=300, height=30)
 # PASSWORD
-password_entry = Entry(login_page, show="*", width=50, highlightthickness=2)
+password_entry = Entry(width=35, show="*", highlightthickness=2, font=20)
 password_entry.place(x=400, y=400, height=30)
 # PROFILE
 values_profile = [" ", "Supporter", "Administrator"]
-profile_entry = Combobox(login_page, values=values_profile, width=47)
+profile_entry = Combobox(width=35, values=values_profile, font=20)
 profile_entry.place(x=400, y=500, height=30)
 
 # BUTTON CONNECT

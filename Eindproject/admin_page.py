@@ -44,11 +44,8 @@ def delete_reservation():  # function to delete one reservation, determined by f
     if d1_teller < 3:
         messagebox.showinfo("", "Gelieve vak, rij en stoelnummer in te vullen")
     elif d1_teller == 3:
-        v = str(lijst_delete1[0])
-        r = str(lijst_delete1[1])
-        s = str(lijst_delete1[2])
         sql = "UPDATE stadion SET reserved = 'Nee' WHERE (tribune = %s AND rij = %s AND stoel = %s)"
-        val = (v, r, s)
+        val = lijst_delete1
         mycursor.execute(sql, val)
         db.commit()
         display_data()
